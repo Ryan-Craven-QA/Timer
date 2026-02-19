@@ -1,0 +1,545 @@
+/* ================================================================
+   POMODORO TIMER — STYLES
+   Dark theme · Mode-aware colors · SVG progress ring
+   ================================================================ */
+
+/* ── Reset & base ─────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── Design tokens ────────────────────────────────────────────── */
+:root {
+  /* Background */
+  --bg-page:       #0f0f17;
+  --bg-surface:    #16161f;
+  --bg-elevated:   #1e1e2e;
+  --bg-overlay:    rgba(0, 0, 0, 0.75);
+
+  /* Text */
+  --text-primary:   #e8e8f0;
+  --text-secondary: #7878a0;
+  --text-muted:     #4a4a6a;
+
+  /* Borders */
+  --border-subtle:  rgba(255, 255, 255, 0.07);
+  --border-mid:     rgba(255, 255, 255, 0.12);
+
+  /* Mode palettes */
+  --work-main:      #e85d4a;
+  --work-light:     #ff7a65;
+  --work-dim:       rgba(232, 93, 74, 0.18);
+  --work-glow:      rgba(232, 93, 74, 0.35);
+
+  --short-main:     #2ecc71;
+  --short-light:    #4ddb89;
+  --short-dim:      rgba(46, 204, 113, 0.18);
+  --short-glow:     rgba(46, 204, 113, 0.35);
+
+  --long-main:      #3b82f6;
+  --long-light:     #60a5fa;
+  --long-dim:       rgba(59, 130, 246, 0.18);
+  --long-glow:      rgba(59, 130, 246, 0.35);
+
+  /* Active mode tokens (overridden per mode class) */
+  --mode-main:      var(--work-main);
+  --mode-light:     var(--work-light);
+  --mode-dim:       var(--work-dim);
+  --mode-glow:      var(--work-glow);
+
+  /* Typography */
+  --font-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Transitions */
+  --t-fast:   0.15s ease;
+  --t-normal: 0.3s ease;
+  --t-slow:   0.5s ease;
+}
+
+/* ── Mode overrides ───────────────────────────────────────────── */
+.mode-work       { --mode-main: var(--work-main);  --mode-light: var(--work-light);  --mode-dim: var(--work-dim);  --mode-glow: var(--work-glow);  }
+.mode-shortBreak { --mode-main: var(--short-main); --mode-light: var(--short-light); --mode-dim: var(--short-dim); --mode-glow: var(--short-glow); }
+.mode-longBreak  { --mode-main: var(--long-main);  --mode-light: var(--long-light);  --mode-dim: var(--long-dim);  --mode-glow: var(--long-glow);  }
+
+/* ── Page ─────────────────────────────────────────────────────── */
+html { height: 100%; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-page);
+  background-image:
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(232, 93, 74, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 90%, rgba(59, 130, 246, 0.06) 0%, transparent 50%);
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+/* ── App container ────────────────────────────────────────────── */
+.app {
+  width: 100%;
+  max-width: 460px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  transition: --mode-main var(--t-slow);
+}
+
+/* ── Header ───────────────────────────────────────────────────── */
+.header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo-icon { font-size: 1.4rem; }
+
+.logo-text {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mode-main);
+  transition: color var(--t-slow);
+}
+
+/* ── Icon button ──────────────────────────────────────────────── */
+.icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 50%;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background var(--t-fast), color var(--t-fast), border-color var(--t-fast);
+}
+.icon-btn:hover { background: var(--bg-elevated); color: var(--text-primary); border-color: var(--border-mid); }
+.icon-btn:focus-visible { outline: 2px solid var(--mode-main); outline-offset: 2px; }
+
+/* ── Mode tabs ────────────────────────────────────────────────── */
+.mode-tabs {
+  display: flex;
+  gap: 0.25rem;
+  padding: 0.3rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: 100px;
+}
+
+.mode-tab {
+  padding: 0.45rem 1rem;
+  border: none;
+  border-radius: 100px;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
+  background: transparent;
+  cursor: pointer;
+  transition: background var(--t-fast), color var(--t-fast), box-shadow var(--t-fast);
+  white-space: nowrap;
+}
+.mode-tab:hover:not(.active) { color: var(--text-primary); }
+.mode-tab.active {
+  background: var(--mode-main);
+  color: #fff;
+  box-shadow: 0 2px 12px var(--mode-glow);
+}
+.mode-tab:focus-visible { outline: 2px solid var(--mode-main); outline-offset: 2px; }
+
+/* ── Timer ring ───────────────────────────────────────────────── */
+.timer-container {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progress-ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+  overflow: visible;
+}
+
+/* Track (background ring) */
+.ring-track {
+  fill: none;
+  stroke: var(--bg-elevated);
+  stroke-width: 10;
+}
+
+/* Inner decorative ring */
+.ring-inner {
+  fill: var(--bg-surface);
+  stroke: var(--border-subtle);
+  stroke-width: 1;
+}
+
+/* Animated progress arc */
+.ring-progress {
+  fill: none;
+  stroke: var(--mode-main);
+  stroke-width: 10;
+  stroke-linecap: round;
+  /* dasharray and dashoffset set by JS */
+  filter: url(#glow);
+  transition: stroke var(--t-slow);
+}
+
+/* Dot at the leading edge of the arc */
+.ring-dot {
+  fill: var(--mode-light);
+  filter: url(#glow);
+  transition: fill var(--t-slow);
+}
+
+/* Timer text overlay */
+.timer-display {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  user-select: none;
+  pointer-events: none;
+}
+
+.time-value {
+  font-family: var(--font-mono);
+  font-size: 4.8rem;
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--text-primary);
+}
+
+.time-status {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--mode-main);
+  transition: color var(--t-slow);
+}
+
+/* Alert pulse animation */
+@keyframes ring-pulse {
+  0%, 100% { transform: scale(1); }
+  30%       { transform: scale(1.025); }
+  60%       { transform: scale(0.99); }
+}
+.timer-container.alerting { animation: ring-pulse 0.6s ease 2; }
+
+/* ── Controls ─────────────────────────────────────────────────── */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* ── Buttons ──────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border: none;
+  border-radius: 100px;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background var(--t-fast), color var(--t-fast), transform 0.1s, box-shadow var(--t-slow);
+}
+.btn:focus-visible { outline: 2px solid var(--mode-main); outline-offset: 3px; }
+.btn:active { transform: scale(0.97); }
+
+/* Primary */
+.btn-primary {
+  padding: 0.9rem 2.8rem;
+  font-size: 0.95rem;
+  background: var(--mode-main);
+  color: #fff;
+  box-shadow: 0 4px 24px var(--mode-glow);
+  transition: background var(--t-slow), box-shadow var(--t-slow), transform 0.1s;
+}
+.btn-primary:hover { filter: brightness(1.1); }
+
+/* Ghost */
+.btn-ghost {
+  padding: 0.75rem 1.25rem;
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+}
+.btn-ghost:hover { color: var(--text-primary); border-color: var(--border-mid); background: rgba(255,255,255,0.05); }
+
+/* Full-width variant */
+.btn-full { width: 100%; justify-content: center; }
+
+/* Icon visibility helpers */
+.hidden { display: none !important; }
+
+/* ── Session counter ──────────────────────────────────────────── */
+.sessions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.sessions-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.sessions-dots {
+  display: flex;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.session-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-mid);
+  transition: background var(--t-normal), box-shadow var(--t-normal), transform var(--t-fast);
+}
+.session-dot.completed {
+  background: var(--mode-main);
+  border-color: var(--mode-main);
+  box-shadow: 0 0 8px var(--mode-glow);
+}
+.session-dot.active {
+  background: var(--mode-dim);
+  border-color: var(--mode-main);
+  transform: scale(1.25);
+}
+
+.sessions-count {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+/* ── Settings overlay ─────────────────────────────────────────── */
+.settings-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-overlay);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--t-normal);
+}
+.settings-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+.settings-overlay.open .settings-panel {
+  transform: translateY(0) scale(1);
+}
+
+.settings-panel {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-mid);
+  border-radius: 1.25rem;
+  width: 100%;
+  max-width: 400px;
+  max-height: 90vh;
+  overflow-y: auto;
+  transform: translateY(16px) scale(0.97);
+  transition: transform var(--t-normal);
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-mid) transparent;
+}
+.settings-panel::-webkit-scrollbar { width: 4px; }
+.settings-panel::-webkit-scrollbar-thumb { background: var(--border-mid); border-radius: 4px; }
+
+/* Settings header */
+.settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--border-subtle);
+  position: sticky;
+  top: 0;
+  background: var(--bg-elevated);
+  z-index: 1;
+}
+.settings-title {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+/* Settings body */
+.settings-body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.settings-group {
+  border: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.settings-group-title {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mode-main);
+  transition: color var(--t-slow);
+  margin-bottom: 1rem;
+  padding: 0;
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.settings-row:last-child { border-bottom: none; }
+
+.settings-row-label {
+  font-size: 0.88rem;
+  color: var(--text-primary);
+  cursor: default;
+}
+
+/* Number input */
+.number-input {
+  display: flex;
+  align-items: center;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-mid);
+  border-radius: 0.6rem;
+  overflow: hidden;
+}
+
+.num-btn {
+  width: 2rem;
+  height: 2rem;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--t-fast), color var(--t-fast);
+  flex-shrink: 0;
+}
+.num-btn:hover { background: rgba(255,255,255,0.08); color: var(--text-primary); }
+
+.number-input input {
+  width: 2.8rem;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  font-weight: 600;
+  outline: none;
+  -moz-appearance: textfield;
+}
+.number-input input::-webkit-outer-spin-button,
+.number-input input::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+/* Toggle switch */
+.toggle {
+  position: relative;
+  display: inline-flex;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.toggle input { position: absolute; opacity: 0; width: 0; height: 0; }
+
+.toggle-track {
+  display: inline-flex;
+  align-items: center;
+  width: 42px;
+  height: 24px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-mid);
+  border-radius: 100px;
+  padding: 2px;
+  transition: background var(--t-normal), border-color var(--t-normal);
+}
+.toggle input:checked ~ .toggle-track {
+  background: var(--mode-main);
+  border-color: var(--mode-main);
+}
+.toggle-thumb {
+  width: 18px;
+  height: 18px;
+  background: var(--text-secondary);
+  border-radius: 50%;
+  transition: transform var(--t-normal), background var(--t-normal);
+}
+.toggle input:checked ~ .toggle-track .toggle-thumb {
+  transform: translateX(18px);
+  background: #fff;
+}
+.toggle:focus-within .toggle-track { outline: 2px solid var(--mode-main); outline-offset: 2px; }
+
+/* Settings footer */
+.settings-footer {
+  padding: 1.25rem 1.5rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* ── Responsive ───────────────────────────────────────────────── */
+@media (max-width: 380px) {
+  body { padding: 1rem; }
+  .app { gap: 1.5rem; }
+  .timer-container { width: 260px; height: 260px; }
+  .time-value { font-size: 4rem; }
+  .btn-primary { padding: 0.8rem 2rem; }
+  .mode-tab { padding: 0.4rem 0.75rem; font-size: 0.75rem; }
+}
