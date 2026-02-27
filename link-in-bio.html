@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ryan Craven — AInsights</title>
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #0d0d0d;
+      --surface: #161616;
+      --border: #2a2a2a;
+      --text: #ffffff;
+      --muted: #888888;
+      --accent: #a855f7;
+      --accent-glow: rgba(168, 85, 247, 0.15);
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        "Helvetica Neue", Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 420px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    /* Avatar */
+    .avatar {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -1px;
+      margin-bottom: 1.25rem;
+      flex-shrink: 0;
+      box-shadow: 0 0 0 3px var(--border), 0 0 32px var(--accent-glow);
+    }
+
+    /* Name & bio */
+    .name {
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.3rem;
+    }
+
+    .brand {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+
+    .bio {
+      font-size: 0.9rem;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.55;
+      max-width: 300px;
+      margin-bottom: 2rem;
+    }
+
+    /* Links */
+    .links {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .link-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      width: 100%;
+      padding: 0.9rem 1.25rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: background 0.18s, border-color 0.18s, transform 0.12s;
+      cursor: pointer;
+    }
+
+    .link-btn:hover {
+      background: #1f1f1f;
+      border-color: #3a3a3a;
+      transform: translateY(-1px);
+    }
+
+    .link-btn:active {
+      transform: translateY(0);
+    }
+
+    .link-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .icon-wrap {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .icon-wrap svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    /* Platform brand colours */
+    .icon-x       { background: #000; color: #fff; border: 1px solid #333; }
+    .icon-threads { background: #000; color: #fff; border: 1px solid #333; }
+    .icon-youtube { background: #ff0000; color: #fff; }
+    .icon-gumroad { background: #ff90e8; color: #000; }
+
+    .link-label {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
+    }
+
+    .link-label span:first-child {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .link-label .sub {
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    .arrow {
+      color: var(--muted);
+      flex-shrink: 0;
+      transition: color 0.15s;
+    }
+
+    .link-btn:hover .arrow {
+      color: var(--text);
+    }
+
+    /* Divider */
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      margin: 1.75rem 0 1.5rem;
+    }
+
+    /* Footer */
+    .footer {
+      font-size: 0.75rem;
+      color: #444;
+      letter-spacing: 0.04em;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+
+    <div class="avatar">RC</div>
+
+    <div class="name">Ryan Craven</div>
+    <div class="brand">AInsights</div>
+    <p class="bio">AI &amp; tech education — breaking down what's next in artificial intelligence so you can stay ahead.</p>
+
+    <div class="links">
+
+      <!-- X (Twitter) -->
+      <a class="link-btn" href="https://x.com/" target="_blank" rel="noopener">
+        <div class="link-left">
+          <div class="icon-wrap icon-x">
+            <!-- X logo -->
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/>
+            </svg>
+          </div>
+          <div class="link-label">
+            <span>X (Twitter)</span>
+            <span class="sub">Follow for daily AI takes</span>
+          </div>
+        </div>
+        <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+
+      <!-- Threads -->
+      <a class="link-btn" href="https://www.threads.net/" target="_blank" rel="noopener">
+        <div class="link-left">
+          <div class="icon-wrap icon-threads">
+            <!-- Threads logo -->
+            <svg viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg">
+              <path d="M141.537 88.988a66.667 66.667 0 0 0-2.518-1.143c-1.482-27.307-16.403-42.94-41.457-43.1h-.34c-14.986 0-27.449 6.396-35.12 18.036l13.779 9.452c5.73-8.695 14.724-10.548 21.348-10.548h.232c8.25.053 14.476 2.452 18.502 7.13 2.932 3.405 4.893 8.11 5.864 14.05-7.314-1.243-15.224-1.626-23.68-1.14-23.82 1.371-39.134 15.264-38.105 34.568.522 9.792 5.4 18.216 13.735 23.719 7.047 4.652 16.124 6.927 25.557 6.412 12.458-.683 22.231-5.436 29.049-14.127 5.178-6.6 8.453-15.153 9.899-25.93 5.937 3.583 10.337 8.298 12.767 13.966 4.132 9.635 4.373 25.468-8.546 38.376-11.319 11.308-24.925 16.2-45.488 16.351-22.809-.169-40.06-7.484-51.275-21.742C35.236 139.966 29.808 120.682 29.605 96c.203-24.682 5.63-43.966 16.133-57.317C56.954 24.425 74.204 17.11 97.013 16.94c22.975.17 40.526 7.52 52.171 21.847 5.71 7.026 10.015 15.86 12.853 26.162l16.147-4.308c-3.44-12.68-8.853-23.606-16.219-32.668C147.036 10.439 125.202.195 97.07 0h-.113C68.882.195 47.292 10.464 32.788 30.532 19.882 48.318 13.224 73.132 13.001 96v.027c.223 22.868 6.881 47.682 19.787 65.468 14.504 20.068 36.094 30.337 64.224 30.532h.113c25.315-.172 43.08-6.81 57.709-21.433 19.256-19.244 18.653-43.34 12.315-58.182-4.591-10.703-13.439-19.393-25.612-25.424z"/>
+            </svg>
+          </div>
+          <div class="link-label">
+            <span>Threads</span>
+            <span class="sub">AI insights &amp; discussions</span>
+          </div>
+        </div>
+        <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+
+      <!-- YouTube -->
+      <a class="link-btn" href="https://www.youtube.com/" target="_blank" rel="noopener">
+        <div class="link-left">
+          <div class="icon-wrap icon-youtube">
+            <!-- YouTube logo -->
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+            </svg>
+          </div>
+          <div class="link-label">
+            <span>YouTube</span>
+            <span class="sub">Tutorials &amp; breakdowns</span>
+          </div>
+        </div>
+        <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+
+      <!-- Gumroad -->
+      <a class="link-btn" href="https://gumroad.com/" target="_blank" rel="noopener">
+        <div class="link-left">
+          <div class="icon-wrap icon-gumroad">
+            <!-- Gumroad "G" wordmark approximation -->
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm.75 17.5H11.5C8.462 17.5 6 15.038 6 12s2.462-5.5 5.5-5.5c1.8 0 3.394.868 4.394 2.2l-1.55 1.133A3.496 3.496 0 0 0 11.5 8.5C9.567 8.5 8 10.067 8 12s1.567 3.5 3.5 3.5h1.25V13H11v-2h4v6.5h-2.25z"/>
+            </svg>
+          </div>
+          <div class="link-label">
+            <span>Gumroad Store</span>
+            <span class="sub">Courses, guides &amp; resources</span>
+          </div>
+        </div>
+        <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+
+    </div>
+
+    <div class="divider"></div>
+    <div class="footer">© 2026 AInsights · Ryan Craven</div>
+
+  </div>
+
+</body>
+</html>
